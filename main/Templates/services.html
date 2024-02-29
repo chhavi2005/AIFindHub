@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Services{% endblock title %}
+
+{% block base %}
+  <section class="vh-100 mt-0" style="background-color: #FF6347;">
+    <div class="container-fluid h-custom">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+
+        <!-- LOST Section -->
+        <div class="col-md-6 col-lg-6 col-xl-6 text-center lost-section" style="color: #000; padding: 50px; height: 100vh; background-color: #FF4500;">
+          <h1 class="display-4 fw-bold mb-4">LOST</h1>
+          <!-- Quotes -->
+          <p id="lost-quote" style="font-family: 'Verdana', sans-serif; font-size: 1.2rem;"></p>
+          <!-- Upload options at bottom -->
+          <form method="POST" action="{% url 'services' %}" enctype="multipart/form-data" class="mt-3">
+            {% csrf_token %}
+            <input type="hidden" name="section" value="lost">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit" class="btn btn-primary" style="font-size: 1rem;">Upload Image</button>
+          </form>
+        </div>
+
+        <!-- FOUND Section -->
+        <div class="col-md-6 col-lg-6 col-xl-6 text-center found-section" style="color: #000; padding: 50px; height: 100vh; background-color: #87CEEB;">
+          <h1 class="display-4 fw-bold mb-4">FOUND</h1>
+          <!-- Quotes -->
+          <p id="found-quote" style="font-family: 'Verdana', sans-serif; font-size: 1.2rem;"></p>
+          <!-- Upload options at bottom -->
+          <form method="POST" action="{% url 'services' %}" enctype="multipart/form-data" class="mt-3">
+            {% csrf_token %}
+            <input type="hidden" name="section" value="found">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit" class="btn btn-danger" style="font-size: 1rem;">Upload Image</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Sample Quotes (Feel free to replace them)
+    const lostQuotes = [
+      "The only thing we have to fear is fear itself.",
+      "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+      "Believe you can and you're halfway there."
+    ];
+
+    const foundQuotes = [
+      "Success is not the key to happiness. Happiness is the key to success.",
+      "The only limit to our realization of tomorrow will be our doubts of today.",
+      "Don't watch the clock; do what it does. Keep going."
+    ];
+
+    // Function to set a random quote
+    function setRandomQuote(section) {
+      const quoteContainer = document.getElementById(`${section}-quote`);
+      const quotes = section === "lost" ? lostQuotes : foundQuotes;
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      quoteContainer.textContent = quotes[randomIndex];
+    }
+
+    // Set initial quotes
+    setRandomQuote("lost");
+    setRandomQuote("found");
+
+    // Change quotes every minute
+    setInterval(() => {
+      setRandomQuote("lost");
+      setRandomQuote("found");
+    }, 60000);
+  </script>
+{% endblock base %}
